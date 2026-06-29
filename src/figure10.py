@@ -1,20 +1,20 @@
 import argparse
 from pathlib import Path
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from helper_functions import compute_fundamental_diagram, theoretical_curves
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="../figures/figure_6_reproduction.png")
+    parser.add_argument("--output", default="../figures/figure_10_reproduction.png")
     parser.add_argument("--n-min", type=int, default=5)
     parser.add_argument("--n-max", type=int, default=550)
-    parser.add_argument("--n-step", type=int, default=5)
-    parser.add_argument("--total-steps", type=int, default=10000)
-    parser.add_argument("--warmup-steps", type=int, default=9800)
+    parser.add_argument("--n-step", type=int, default=10)
+    parser.add_argument("--total-steps", type=int, default=12000)
+    parser.add_argument("--warmup-steps", type=int, default=11000)
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args()
 
@@ -26,8 +26,8 @@ def main():
 
     densities, flows = compute_fundamental_diagram(
         kappa=1.0,
-        lambda_=0.1,
-        n_dec=1,
+        lambda_=0.5,
+        n_dec=80,
         N_values=N_values,
         total_steps=args.total_steps,
         warmup_steps=args.warmup_steps,
@@ -37,11 +37,17 @@ def main():
     plt.figure(figsize=(7, 5))
     plt.plot(rho_theory, q_normal, linestyle="-", label="Normal driving")
     plt.plot(rho_theory, q_night, linestyle="--", label="Night driving")
-    plt.plot(densities, flows, linestyle=":", linewidth=2.0, label="Night driving with perturbation")
+    plt.plot(
+        densities,
+        flows,
+        linestyle=":",
+        linewidth=2.0,
+        label=r"Night driving with large perturbation, $n_{dec}=80$",
+    )
 
     plt.xlabel("Density")
     plt.ylabel("Flow")
-    plt.title("Figure 6 reproduction: kappa=1.0, lambda=0.1, n_dec=1")
+    plt.title(r"Figure 10 reproduction: kappa=1.0, lambda=0.5, $n_{dec}=80$")
     plt.xlim(0, 1.1)
     plt.ylim(0, 0.8)
     plt.legend()

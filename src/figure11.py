@@ -8,24 +8,22 @@ from helper_functions import plot_raster
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="../figures/figure_5_reproduction.png")
-    parser.add_argument("--simulation-time", type=float, default=1060.0)
-    parser.add_argument("--raster-range", type=int, default=800)
+    parser.add_argument("--output", default="../figures/figure_11_reproduction.png")
+    parser.add_argument("--simulation-time", type=float, default=2000.0)
+    parser.add_argument("--raster-range", type=int, default=300)
     args = parser.parse_args()
+
+    fig, _ = plot_raster(
+        N=220,
+        n_dec=80,
+        kappa=1.0,
+        lambda_=0.5,
+        simulation_time=args.simulation_time,
+        raster_range=args.raster_range,
+    )
 
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
-
-    fig, _ = plot_raster(
-        N=250,
-        kappa=1.0,
-        lambda_=0.2,
-        n_dec=1,
-        simulation_time=args.simulation_time,
-        raster_range=args.raster_range,
-        figsize=(6, 6),
-    )
-
     fig.savefig(output, dpi=300)
     plt.close(fig)
 
